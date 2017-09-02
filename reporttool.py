@@ -28,7 +28,7 @@ def log_error_status():
         ),
         allrequests AS (
         SELECT time::date AS date, COUNT(*) AS count
-        FROM log 
+        FROM log
         GROUP BY time::date
         )
         SELECT errorrequests.date, CAST(
@@ -44,7 +44,7 @@ def popular_articles():
     """this prints the most popular articles"""
     # this query finds the most popular articles
     results = conn("""
-    SELECT articles.title, count(*) as views 
+    SELECT articles.title, count(*) as views
     FROM articles LEFT JOIN log ON log.path
     LIKE CONCAT('%', articles.slug)
     GROUP BY articles.title ORDER BY views DESC LIMIT 3""")
@@ -59,9 +59,9 @@ def popular_article_authors():
     # this query finds the most popular authors
     results = conn("""
     SELECT authors.name,  count(log.path) AS count
-    FROM authors LEFT JOIN articles ON authors.id = articles.author 
+    FROM authors LEFT JOIN articles ON authors.id = articles.author
     LEFT JOIN log ON log.path LIKE CONCAT('%', articles.slug)
-    GROUP BY authors.name 
+    GROUP BY authors.name
     ORDER BY count LIMIT 3""")
     # this code loops through to find 3 of the most popular authors
     print("\n- List of the most popular Authors: -\n")
